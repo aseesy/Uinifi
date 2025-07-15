@@ -1,4 +1,8 @@
 import React, { useState, useMemo } from 'react';
+import { components, categories } from './data/components';
+import SearchBar from './components/SearchBar';
+import CategoryFilter from './components/CategoryFilter';
+import ComponentCard from './components/ComponentCard';
 
 const UINifiApp = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -6,219 +10,6 @@ const UINifiApp = () => {
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [showToast, setShowToast] = useState(false);
   const [favorites, setFavorites] = useState(new Set());
-
-  // Enhanced component database
-  const components = [
-    // CARDS
-    {
-      id: 'glassmorphism-card',
-      name: 'Glassmorphism Card',
-      category: 'cards',
-      tags: ['glass', 'blur', 'modern', 'translucent', 'ios'],
-      description: 'Translucent card with backdrop blur and subtle highlights, popular in modern iOS design',
-      difficulty: 'intermediate',
-      component: (
-        <div 
-          className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 h-32 flex items-center justify-center border border-white/20 relative overflow-hidden"
-          style={{
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%)'
-          }}
-        >
-          <div className="absolute top-0 left-0 w-16 h-16 opacity-30" style={{
-            background: 'radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.8) 0%, transparent 70%)'
-          }} />
-          <span className="text-sm font-medium text-gray-800 relative z-10">Glassmorphism</span>
-        </div>
-      ),
-      code: {
-        react: `<div 
-  className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
-  style={{
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
-    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%)'
-  }}
->
-  <div className="absolute top-0 left-0 w-16 h-16 opacity-30" style={{
-    background: 'radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.8) 0%, transparent 70%)'
-  }} />
-  Content here
-</div>`,
-        css: `.glassmorphism-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 1rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}`
-      }
-    },
-    {
-      id: 'neumorphism-card',
-      name: 'Neumorphism Card',
-      category: 'cards',
-      tags: ['neumorphism', 'soft', 'embedded', 'subtle', 'tactile'],
-      description: 'Soft UI card with inset and outset shadows creating a tactile, embedded appearance',
-      difficulty: 'advanced',
-      component: (
-        <div 
-          className="rounded-2xl p-6 h-32 flex items-center justify-center"
-          style={{
-            background: 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',
-            boxShadow: '12px 12px 24px rgba(0, 0, 0, 0.05), -12px -12px 24px rgba(255, 255, 255, 0.8), inset 2px 2px 4px rgba(255, 255, 255, 0.8), inset -2px -2px 4px rgba(0, 0, 0, 0.02)'
-          }}
-        >
-          <span className="text-sm font-medium text-gray-800">Neumorphism</span>
-        </div>
-      ),
-      code: {
-        react: `<div 
-  className="rounded-2xl p-6"
-  style={{
-    background: 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',
-    boxShadow: '12px 12px 24px rgba(0, 0, 0, 0.05), -12px -12px 24px rgba(255, 255, 255, 0.8)'
-  }}
->
-  Content here
-</div>`,
-        css: `.neumorphism-card {
-  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-  border-radius: 1rem;
-  box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.05), -12px -12px 24px rgba(255, 255, 255, 0.8);
-}`
-      }
-    },
-    {
-      id: 'floating-card',
-      name: 'Floating Card',
-      category: 'cards',
-      tags: ['shadow', 'elevation', 'floating', 'depth', 'material'],
-      description: 'Elevated card with multi-layer shadows creating realistic depth and floating effect',
-      difficulty: 'beginner',
-      component: (
-        <div 
-          className="bg-white rounded-2xl p-6 h-32 flex items-center justify-center transform hover:scale-105 transition-all duration-300"
-          style={{
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 30px rgba(0, 0, 0, 0.06), 0 4px 15px rgba(0, 0, 0, 0.04)'
-          }}
-        >
-          <span className="text-sm font-medium text-gray-800">Floating Card</span>
-        </div>
-      ),
-      code: {
-        react: `<div 
-  className="bg-white rounded-2xl p-6 transform hover:scale-105 transition-all duration-300"
-  style={{
-    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 30px rgba(0, 0, 0, 0.06), 0 4px 15px rgba(0, 0, 0, 0.04)'
-  }}
->
-  Content here
-</div>`,
-        css: `.floating-card {
-  background: white;
-  border-radius: 1rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 30px rgba(0, 0, 0, 0.06), 0 4px 15px rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s ease;
-}
-.floating-card:hover {
-  transform: scale(1.05);
-}`
-      }
-    },
-
-    // BUTTONS  
-    {
-      id: 'gradient-button',
-      name: 'Gradient Button',
-      category: 'buttons',
-      tags: ['gradient', 'vibrant', 'modern', 'colorful', 'cta'],
-      description: 'Eye-catching gradient button perfect for call-to-action elements',
-      difficulty: 'beginner',
-      component: (
-        <button 
-          className="px-8 py-3 rounded-xl text-white font-semibold text-sm transition-all duration-300 hover:scale-105 hover:shadow-xl"
-          style={{
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-          }}
-        >
-          Get Started
-        </button>
-      ),
-      code: {
-        react: `<button 
-  className="px-8 py-3 rounded-xl text-white font-semibold text-sm transition-all duration-300 hover:scale-105 hover:shadow-xl"
-  style={{
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-  }}
->
-  Get Started
-</button>`,
-        css: `.gradient-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  border-radius: 0.75rem;
-  color: white;
-  font-weight: 600;
-  padding: 0.75rem 2rem;
-  transition: all 0.3s ease;
-}
-.gradient-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-}`
-      }
-    },
-    {
-      id: 'glass-button',
-      name: 'Glass Button',
-      category: 'buttons',
-      tags: ['glass', 'translucent', 'modern', 'blur', 'minimal'],
-      description: 'Sophisticated translucent button with backdrop blur for elegant interfaces',
-      difficulty: 'intermediate',
-      component: (
-        <button 
-          className="px-8 py-3 rounded-xl text-gray-800 font-semibold text-sm backdrop-blur-sm border border-white/30 transition-all duration-300 hover:bg-white/40 hover:scale-105"
-          style={{
-            background: 'rgba(255, 255, 255, 0.25)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-          }}
-        >
-          Learn More
-        </button>
-      ),
-      code: {
-        react: `<button 
-  className="px-8 py-3 rounded-xl text-gray-800 font-semibold text-sm backdrop-blur-sm border border-white/30 transition-all duration-300 hover:bg-white/40"
-  style={{
-    background: 'rgba(255, 255, 255, 0.25)'
-  }}
->
-  Learn More
-</button>`,
-        css: `.glass-button {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 0.75rem;
-  color: #374151;
-  font-weight: 600;
-  padding: 0.75rem 2rem;
-  transition: all 0.3s ease;
-}
-.glass-button:hover {
-  background: rgba(255, 255, 255, 0.4);
-}`
-      }
-    }
-  ];
-
-  const categories = [
-    { id: 'all', name: 'All Components', icon: '🎨', count: components.length },
-    { id: 'cards', name: 'Cards', icon: '🃏', count: components.filter(c => c.category === 'cards').length },
-    { id: 'buttons', name: 'Buttons', icon: '🔘', count: components.filter(c => c.category === 'buttons').length },
-    { id: 'layouts', name: 'Layouts', icon: '📐', count: 0 },
-    { id: 'navigation', name: 'Navigation', icon: '🧭', count: 0 }
-  ];
 
   const filteredComponents = useMemo(() => {
     return components.filter(component => {
@@ -228,7 +19,7 @@ const UINifiApp = () => {
                            component.description.toLowerCase().includes(searchTerm.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchTerm, components]);
+  }, [selectedCategory, searchTerm]);
 
   const copyToClipboard = (code, format = 'react') => {
     const textToCopy = typeof code === 'object' ? code[format] : code;
@@ -290,20 +81,7 @@ const UINifiApp = () => {
         <div className="w-72 bg-white/60 backdrop-blur-md border-r border-gray-200/50 min-h-screen p-6">
           
           {/* Search */}
-          <div className="mb-6">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search components..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white/70 rounded-xl border border-gray-200/50 focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all backdrop-blur-sm"
-              />
-              <svg className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-          </div>
+          <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
           {/* Stats */}
           <div className="mb-6 p-4 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border border-blue-100">
@@ -312,32 +90,11 @@ const UINifiApp = () => {
           </div>
 
           {/* Categories */}
-          <div className="space-y-1">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Categories</h3>
-            {categories.map(category => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`w-full text-left px-4 py-3 rounded-xl transition-all flex items-center justify-between group ${
-                  selectedCategory === category.id 
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg' 
-                    : 'text-gray-600 hover:bg-white/70 hover:shadow-md'
-                }`}
-              >
-                <div className="flex items-center space-x-3">
-                  <span className="text-lg">{category.icon}</span>
-                  <span className="font-medium">{category.name}</span>
-                </div>
-                <span className={`text-xs px-2 py-1 rounded-full ${
-                  selectedCategory === category.id 
-                    ? 'bg-white/20 text-white' 
-                    : 'bg-gray-100 text-gray-500 group-hover:bg-gray-200'
-                }`}>
-                  {category.count}
-                </span>
-              </button>
-            ))}
-          </div>
+          <CategoryFilter 
+            categories={categories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
         </div>
 
         {/* Main Content */}
@@ -354,70 +111,14 @@ const UINifiApp = () => {
           {/* Component Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
             {filteredComponents.map(component => (
-              <div 
+              <ComponentCard
                 key={component.id}
-                className="group bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-200/50 hover:border-blue-200"
-                onClick={() => setSelectedComponent(component)}
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="font-bold text-gray-900 mb-1 text-lg">{component.name}</h3>
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${getDifficultyColor(component.difficulty)}`}>
-                      {component.difficulty}
-                    </span>
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavorite(component.id);
-                    }}
-                    className="text-gray-400 hover:text-red-500 transition-colors"
-                  >
-                    {favorites.has(component.id) ? '❤️' : '🤍'}
-                  </button>
-                </div>
-                
-                <p className="text-sm text-gray-600 mb-4 leading-relaxed">{component.description}</p>
-                
-                <div className="flex flex-wrap gap-1 mb-6">
-                  {component.tags.slice(0, 3).map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded-lg font-medium">
-                      {tag}
-                    </span>
-                  ))}
-                  {component.tags.length > 3 && (
-                    <span className="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-lg">
-                      +{component.tags.length - 3}
-                    </span>
-                  )}
-                </div>
-                
-                {/* Component Preview */}
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 flex items-center justify-center min-h-[140px] mb-4 border border-gray-200/50">
-                  {component.component}
-                </div>
-                
-                <div className="flex gap-2">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      copyToClipboard(component.code, 'react');
-                    }}
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-xl font-semibold hover:shadow-lg transition-all group-hover:scale-105"
-                  >
-                    Copy React
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      copyToClipboard(component.code, 'css');
-                    }}
-                    className="px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 transition-all"
-                  >
-                    CSS
-                  </button>
-                </div>
-              </div>
+                component={component}
+                onSelect={setSelectedComponent}
+                onToggleFavorite={toggleFavorite}
+                onCopyCode={copyToClipboard}
+                isFavorite={favorites.has(component.id)}
+              />
             ))}
           </div>
 
