@@ -1,0 +1,9 @@
+# Cloudflare Pages redirects
+# Handle client-side routing
+/*    /index.html   200
+
+# Redirect www to non-www
+https://www.uinifi.ai/* https://uinifi.ai/:splat 301!
+
+# Force HTTPS
+http://uinifi.ai/* https://uinifi.ai/:splat 301! 
