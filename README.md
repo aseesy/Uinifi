@@ -94,16 +94,27 @@ npm run build
 
 ```
 uinifi-ai/
-├── public/
-│   └── index.html          # Main HTML file
 ├── src/
-│   ├── App.js             # Main React component
-│   ├── index.js           # React entry point
-│   └── index.css          # Tailwind CSS and custom styles
-├── package.json           # Dependencies and scripts
-├── tailwind.config.js     # Tailwind configuration
-├── postcss.config.js      # PostCSS configuration
-└── README.md             # This file
+│   ├── components/
+│   │   ├── ComponentCard.js    # Reusable component card
+│   │   ├── CategoryFilter.js   # Category filtering component
+│   │   └── SearchBar.js        # Search functionality
+│   ├── data/
+│   │   └── components.js       # Component database
+│   ├── App.js                  # Main React component
+│   ├── index.js                # React entry point
+│   └── index.css               # Tailwind CSS and custom styles
+├── public/
+│   ├── index.html              # Main HTML file
+│   ├── _redirects              # Cloudflare Pages routing
+│   ├── _headers                # Security headers
+│   ├── manifest.json           # PWA manifest
+│   ├── robots.txt              # SEO optimization
+│   └── sitemap.xml            # SEO sitemap
+├── package.json                # Dependencies and scripts
+├── tailwind.config.js          # Tailwind configuration
+├── postcss.config.js           # PostCSS configuration
+└── README.md                   # This file
 ```
 
 ## Available Scripts

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ComponentCard = ({ component, onSelect, onToggleFavorite, onCopyCode, isFavorite }) => {
+const ComponentCard = ({ component, onToggleFavorite, onCopyCode, isFavorite }) => {
   const getDifficultyColor = (difficulty) => {
     switch(difficulty) {
       case 'beginner': return 'bg-green-100 text-green-700';
@@ -11,10 +11,7 @@ const ComponentCard = ({ component, onSelect, onToggleFavorite, onCopyCode, isFa
   };
 
   return (
-    <div 
-      className="group bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer border border-gray-200/50 hover:border-blue-200"
-      onClick={() => onSelect(component)}
-    >
+    <div className="group bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200/50 hover:border-blue-200">
       <div className="flex justify-between items-start mb-4">
         <div>
           <h3 className="font-bold text-gray-900 mb-1 text-lg">{component.name}</h3>
@@ -57,20 +54,11 @@ const ComponentCard = ({ component, onSelect, onToggleFavorite, onCopyCode, isFa
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onCopyCode(component.code, 'react');
+            onCopyCode(component.code);
           }}
           className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-xl font-semibold hover:shadow-lg transition-all group-hover:scale-105"
         >
-          Copy React
-        </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onCopyCode(component.code, 'css');
-          }}
-          className="px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 transition-all"
-        >
-          CSS
+          Copy Code
         </button>
       </div>
     </div>

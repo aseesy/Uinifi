@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SearchBar = ({ searchTerm, setSearchTerm }) => {
+const SearchBar = ({ searchTerm, onSearchChange }) => {
   return (
     <div className="mb-6">
       <div className="relative">
@@ -8,7 +8,7 @@ const SearchBar = ({ searchTerm, setSearchTerm }) => {
           type="text"
           placeholder="Search components..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => onSearchChange(e.target.value)}
           className="w-full pl-10 pr-4 py-3 bg-white/70 rounded-xl border border-gray-200/50 focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all backdrop-blur-sm"
         />
         <svg className="absolute left-3 top-3.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
